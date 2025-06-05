@@ -1,7 +1,16 @@
+resource "aws_instance" "bayer_app" {
+  ami           = "ami-0af9569868786b23a"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Lambada-start-stop-instance"
+  }
+}
+
 module "iam" {
   source           = "./modules/iam"
   lambda_role_name = "ec2-lambda-role-for-stop-start"
 }
+
 
 module "start_lambda" {
   source           = "./modules/lambda"
@@ -10,7 +19,7 @@ module "start_lambda" {
   handler_name     = "start_lambda.lambda_handler"
   role_arn         = module.iam.lambda_role_arn
   environment_vars = {
-    INSTANCE_IDS = "i-05912e307dea646aa"
+    INSTANCE_IDS = aws_instance.bayer_app.id
   }
 }
 
@@ -21,7 +30,7 @@ module "stop_lambda" {
   handler_name     = "stop_lambda.lambda_handler"
   role_arn         = module.iam.lambda_role_arn
   environment_vars = {
-    INSTANCE_IDS = "i-05912e307dea646aa"
+    INSTANCE_IDS = aws_instance.bayer_app.id
   }
 }
 
