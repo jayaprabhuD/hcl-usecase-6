@@ -1,6 +1,6 @@
 variable "rule_name" {
   description = "rule-name"
-  type = sting
+  type = string
 }
 
 variable "schedule_expr" {
