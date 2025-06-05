@@ -4,7 +4,7 @@ variable "rule_name" {
 }
 
 variable "schedule_expr" {
-  description = "crone job"
+  description = "cron job"
   type = string
 }
 
