@@ -1,5 +1,5 @@
 module "iam" {
-  source           = "./modules/iam_role"
+  source           = "./modules/iam"
   lambda_role_name = "ec2-lambda-role-for-stop-start"
 }
 
@@ -15,7 +15,7 @@ module "start_lambda" {
 }
 
 module "stop_lambda" {
-  source           = "./modules/lambda_function"
+  source           = "./modules/lambda"
   function_name    = "StopEC2Instances"
   handler_file     = "${path.module}/stop_lambda.py"
   handler_name     = "stop_lambda.lambda_handler"
@@ -28,7 +28,7 @@ module "stop_lambda" {
 # stop cron scheduler
 
 module "stop_scheduler" {
-  source              = "./modules/cloudwatch_event"
+  source              = "./modules/cw_event"
   rule_name           = "StopEC2InstancesRule"
   schedule_expr       =  "cron(0 18 ? * MON-FRI *)" 
   lambda_function_arn = module.stop_lambda.lambda_role_arn
@@ -36,7 +36,7 @@ module "stop_scheduler" {
 
 # start cron scheduler
 module "start_scheduler" {
-  source              = "./modules/cloudwatch_event"
+  source              = "./modules/cw_event"
   rule_name           = "StartEC2InstancesRule"
   schedule_expr       = "cron(0 18 ? * MON-FRI *)" 
   lambda_function_arn = module.start_lambda.lambda_role_arn
