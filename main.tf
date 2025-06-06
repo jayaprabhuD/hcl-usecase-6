@@ -39,6 +39,6 @@ module "stop_scheduler" {
 module "start_scheduler" {
   source              = "./modules/cw_event"
   rule_name           = "StartEC2InstancesRule"
-  schedule_expr       = "cron(57 15 ? * MON-FRI *)" 
+  schedule_expr       = "cron(20 16 ? * MON-FRI *)" 
   lambda_function_arn = module.start_lambda.lambda_role_arn
 }

@@ -9,9 +9,10 @@ on:
       action:
         description: 'Terraform action to perform'
         required: true
-        default: 'destroy'
+        default: 'apply'
         type: choice
         options:
+          - apply
           - destroy
 
 permissions:
